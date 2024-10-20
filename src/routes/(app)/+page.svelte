@@ -1,15 +1,16 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
-  import { exists, BaseDirectory } from "@tauri-apps/api/fs";
+  import { exists, BaseDirectory } from "@tauri-apps/plugin-fs";
   import { onMount } from "svelte";
   onMount(async () => {
     const e = await exists("config.json", {
-      dir: BaseDirectory.AppConfig,
+      baseDir: BaseDirectory.AppConfig,
     });
+    console.info(e);
     if (!e) {
       goto("/wizard");
     }
   });
 </script>
 
-<div class="bg-blue-400">hi</div>
+hello?
