@@ -5,5 +5,5 @@ export interface CreateFormArgs<T extends Record<string, unknown>> {
 export function createForm<T extends Record<string, unknown>>(
   args: CreateFormArgs<T>,
 ) {
-  console.info("hi", args);
+  console.info('hi', args);
 }

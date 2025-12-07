@@ -1,33 +1,61 @@
 <script>
-  import Step from "$lib/components/wizard/step.svelte";
-  import Wizard from "$lib/components/wizard/wizard.svelte";
-  import { PUBLIC_GOOGLE_CLIENT_ID } from "$env/static/public";
+  import { Steps } from '@skeletonlabs/skeleton-svelte';
+  import { PUBLIC_GOOGLE_CLIENT_ID } from '$env/static/public';
+
+  const steps = [
+		{ title: 'First', content: 'First do this.' },
+		{ title: 'Then', content: 'Then do that.' },
+		{ title: 'Finally', content: 'Almost done...' },
+	];
 </script>
 
-<h1 class="text-2xl font-extrabold p-8 text-zinc-700 dark:text-zinc-100">
-  Wizard
-</h1>
+<div class="w-7/8 mx-auto">
+  <h1 class="h1 mt-8">
+    Wizard
+  </h1>
+  
+  <!-- <div
+    id="g_id_onload"
+    data-client_id={PUBLIC_GOOGLE_CLIENT_ID}
+    data-login_uri="http://localhost:3000/your_login_endpoint"
+    data-auto_prompt="false"
+  ></div>
+  <div
+    class="g_id_signin"
+    data-type="standard"
+    data-size="large"
+    data-theme="outline"
+    data-text="sign_in_with"
+    data-shape="rectangular"
+    data-logo_alignment="left"
+  ></div> -->
+  
+  <Steps orientation="vertical" count={steps.length} class="mx-auto mt-8 h-full">
+    <Steps.List>
+      {#each steps as item, index}
+        <Steps.Item {index}>
+          <Steps.Trigger>
+            <Steps.Indicator>{index + 1}</Steps.Indicator>
+            {item.title}
+          </Steps.Trigger>
+          {#if index < steps.length - 1}
+            <Steps.Separator />
+          {/if}
+        </Steps.Item>
+      {/each}
+    </Steps.List>
+    <div class="flex flex-col grow">
+      {#each steps as item, index}
+        <Steps.Content {index} class="grow">
+          {item.content}
+        </Steps.Content>
+      {/each}
+      <Steps.Content index={steps.length} class="grow">All done!</Steps.Content>
+      <div class="flex justify-between items-center gap-2">
+        <Steps.PrevTrigger class="btn preset-filled">Back</Steps.PrevTrigger>
+        <Steps.NextTrigger class="btn preset-filled">Next</Steps.NextTrigger>
+      </div>
+    </div>
+  </Steps>
+</div>
 
-<div
-  id="g_id_onload"
-  data-client_id={PUBLIC_GOOGLE_CLIENT_ID}
-  data-login_uri="http://localhost:3000/your_login_endpoint"
-  data-auto_prompt="false"
-></div>
-<div
-  class="g_id_signin"
-  data-type="standard"
-  data-size="large"
-  data-theme="outline"
-  data-text="sign_in_with"
-  data-shape="rectangular"
-  data-logo_alignment="left"
-></div>
-
-<Wizard>
-  <Step id="step-1" title="Stepson 1">
-    <input class="px-3 py-2 rounded" placeholder="Your name, my good bitch" />
-  </Step>
-  <Step id="step-2" title="Stepson 2">Step 2</Step>
-  <Step id="step-3" title="Stepson 3">Step 3</Step>
-</Wizard>

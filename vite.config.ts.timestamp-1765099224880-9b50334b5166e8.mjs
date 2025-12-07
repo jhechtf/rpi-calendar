@@ -1,0 +1,14 @@
+// vite.config.ts
+import { sveltekit } from "file:///C:/Users/Jim/projects/rpi-calendar/node_modules/.pnpm/@sveltejs+kit@2.7.1_@svelte_2dcfd0f48c209ae4820319178d433a7c/node_modules/@sveltejs/kit/src/exports/vite/index.js";
+import { defineConfig } from "file:///C:/Users/Jim/projects/rpi-calendar/node_modules/.pnpm/vitest@1.6.0_@types+node@22_26389eb4b9dda203130752ad288b0cd2/node_modules/vitest/dist/config.js";
+import tailwindcss from "file:///C:/Users/Jim/projects/rpi-calendar/node_modules/.pnpm/@tailwindcss+vite@4.1.17_vi_d6d3ccbb53991615fd9910dd68c86e74/node_modules/@tailwindcss/vite/dist/index.mjs";
+var vite_config_default = defineConfig({
+  plugins: [tailwindcss(), sveltekit()],
+  test: {
+    include: ["src/**/*.{test,spec}.{js,ts}"]
+  }
+});
+export {
+  vite_config_default as default
+};
+//# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsidml0ZS5jb25maWcudHMiXSwKICAic291cmNlc0NvbnRlbnQiOiBbImNvbnN0IF9fdml0ZV9pbmplY3RlZF9vcmlnaW5hbF9kaXJuYW1lID0gXCJDOlxcXFxVc2Vyc1xcXFxKaW1cXFxccHJvamVjdHNcXFxccnBpLWNhbGVuZGFyXCI7Y29uc3QgX192aXRlX2luamVjdGVkX29yaWdpbmFsX2ZpbGVuYW1lID0gXCJDOlxcXFxVc2Vyc1xcXFxKaW1cXFxccHJvamVjdHNcXFxccnBpLWNhbGVuZGFyXFxcXHZpdGUuY29uZmlnLnRzXCI7Y29uc3QgX192aXRlX2luamVjdGVkX29yaWdpbmFsX2ltcG9ydF9tZXRhX3VybCA9IFwiZmlsZTovLy9DOi9Vc2Vycy9KaW0vcHJvamVjdHMvcnBpLWNhbGVuZGFyL3ZpdGUuY29uZmlnLnRzXCI7aW1wb3J0IHsgc3ZlbHRla2l0IH0gZnJvbSAnQHN2ZWx0ZWpzL2tpdC92aXRlJztcbmltcG9ydCB7IGRlZmluZUNvbmZpZyB9IGZyb20gJ3ZpdGVzdC9jb25maWcnO1xuaW1wb3J0IHRhaWx3aW5kY3NzIGZyb20gJ0B0YWlsd2luZGNzcy92aXRlJztcblxuZXhwb3J0IGRlZmF1bHQgZGVmaW5lQ29uZmlnKHtcbiAgcGx1Z2luczogW3RhaWx3aW5kY3NzKCksIHN2ZWx0ZWtpdCgpXSxcbiAgdGVzdDoge1xuICAgIGluY2x1ZGU6IFsnc3JjLyoqLyoue3Rlc3Qsc3BlY30ue2pzLHRzfSddLFxuICB9LFxufSk7XG4iXSwKICAibWFwcGluZ3MiOiAiO0FBQWtTLFNBQVMsaUJBQWlCO0FBQzVULFNBQVMsb0JBQW9CO0FBQzdCLE9BQU8saUJBQWlCO0FBRXhCLElBQU8sc0JBQVEsYUFBYTtBQUFBLEVBQzFCLFNBQVMsQ0FBQyxZQUFZLEdBQUcsVUFBVSxDQUFDO0FBQUEsRUFDcEMsTUFBTTtBQUFBLElBQ0osU0FBUyxDQUFDLDhCQUE4QjtBQUFBLEVBQzFDO0FBQ0YsQ0FBQzsiLAogICJuYW1lcyI6IFtdCn0K

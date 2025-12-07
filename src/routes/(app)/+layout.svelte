@@ -1,7 +1,7 @@
 <script>
-  import Navigation from "$lib/components/navigation.svelte";
-  import "../../app.css";
+import Navigation from '$lib/components/navigation.svelte';
+import '../../app.css';
+let { children } = $props();
 </script>
 
-<Navigation />
-<slot />
+{@render children()}
