@@ -3,7 +3,7 @@
     "beforeBuildCommand": "pnpm run build",
     "beforeDevCommand": "pnpm run dev",
     "frontendDist": "../static",
-    "devUrl": "http://localhost:5173"
+    "devUrl": "http://localhost:5174"
   },
   "bundle": {
     "active": true,

@@ -30,13 +30,14 @@
       orderedSteps = orderedSteps.filter((step) => step !== id);
     },
   });
+
 </script>
 
 <div class="container mx-auto overflow-hidden">
   <header class="flex gap-2" role="tablist">
     {#each Object.entries(steps) as [id, value]}
       <div
-        class="p-2 rounded"
+        class="p-2 rounded-sm"
         class:active={$active === id}
         tabindex="0"
         role="tab"
@@ -61,13 +62,13 @@
 <style lang="scss">
   div[role="tab"] {
     &.active:hover {
-      background-color: theme("colors.blue.500");
+      background-color: var(--colors-blue-500);
     }
     &:hover {
-      background-color: theme("colors.zinc.700");
+      background-color: var(--colors-zinc-700);
     }
   }
   div.active {
-    background-color: theme("colors.blue.600");
+    background-color: var(--colors-blue-600);
   }
 </style>

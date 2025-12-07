@@ -26,7 +26,7 @@
 
 <Wizard>
   <Step id="step-1" title="Stepson 1">
-    <input class="px-3 py-2 rounded" placeholder="Your name, my good bitch" />
+    <input class="px-3 py-2 rounded-sm" placeholder="Your name, my good bitch" />
   </Step>
   <Step id="step-2" title="Stepson 2">Step 2</Step>
   <Step id="step-3" title="Stepson 3">Step 3</Step>
