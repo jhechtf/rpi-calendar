@@ -1,36 +1,35 @@
 <script lang="ts">
-  import { setContext } from "svelte";
-  import type { WizardContext } from "./wizard";
-  import { writable } from "svelte/store";
+import { setContext } from 'svelte';
+import type { WizardContext } from './wizard';
+import { writable } from 'svelte/store';
 
-  let steps: Record<string, { title: string; id: string }> = {};
-  let orderedSteps: string[] = [];
+let steps: Record<string, { title: string; id: string }> = {};
+let orderedSteps: string[] = [];
 
-  const active = writable("");
+const active = writable('');
 
-  setContext<WizardContext>("wizard", {
-    getActiveStore: () => active,
-    registerStep: (id, title) => {
-      if (steps[id]) {
-        throw new Error("Cannot add this element; key already exists");
-      }
+setContext<WizardContext>('wizard', {
+  getActiveStore: () => active,
+  registerStep: (id, title) => {
+    if (steps[id]) {
+      throw new Error('Cannot add this element; key already exists');
+    }
 
-      steps[id] = {
-        title,
-        id,
-      };
-      orderedSteps.push(id);
+    steps[id] = {
+      title,
+      id,
+    };
+    orderedSteps.push(id);
 
-      if ($active === "" && orderedSteps.length) {
-        $active = orderedSteps[0];
-      }
-    },
-    unregisterStep: (id: string) => {
-      if (steps[id]) delete steps[id];
-      orderedSteps = orderedSteps.filter((step) => step !== id);
-    },
-  });
-
+    if ($active === '' && orderedSteps.length) {
+      $active = orderedSteps[0];
+    }
+  },
+  unregisterStep: (id: string) => {
+    if (steps[id]) delete steps[id];
+    orderedSteps = orderedSteps.filter((step) => step !== id);
+  },
+});
 </script>
 
 <div class="container mx-auto overflow-hidden">

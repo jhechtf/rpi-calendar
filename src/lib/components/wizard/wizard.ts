@@ -1,4 +1,4 @@
-import type { Writable } from "svelte/store";
+import type { Writable } from 'svelte/store';
 
 export interface WizardContext {
   registerStep(id: string, title: string): void;
