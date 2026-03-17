@@ -1,73 +1,112 @@
 <script lang="ts">
   import { setContext } from "svelte";
-  import type { WizardContext } from "./wizard";
-  import { writable } from "svelte/store";
+  import type { Snippet } from "svelte";
+  import type { WizardContext, WizardState } from "./wizard";
 
-  let steps: Record<string, { title: string; id: string }> = {};
-  let orderedSteps: string[] = [];
+  interface Props {
+    children: Snippet;
+    oncomplete?: () => void;
+  }
 
-  const active = writable("");
+  let { children, oncomplete }: Props = $props();
+
+  // A single $state object whose properties remain reactive across the context
+  // boundary. Child components read ctx.state.active / ctx.state.steps directly.
+  const state: WizardState = $state({ active: "", steps: [] });
+
+  const currentIndex = $derived(state.steps.findIndex((s) => s.id === state.active));
+  const isFirst = $derived(currentIndex <= 0);
+  const isLast = $derived(currentIndex === state.steps.length - 1 && state.steps.length > 0);
+
+  function next() {
+    if (!isLast) state.active = state.steps[currentIndex + 1].id;
+  }
+
+  function prev() {
+    if (!isFirst) state.active = state.steps[currentIndex - 1].id;
+  }
 
   setContext<WizardContext>("wizard", {
-    getActiveStore: () => active,
-    registerStep: (id, title) => {
-      if (steps[id]) {
-        throw new Error("Cannot add this element; key already exists");
+    state,
+    registerStep(id, title) {
+      if (state.steps.find((s) => s.id === id)) {
+        throw new Error(`Step "${id}" is already registered`);
       }
-
-      steps[id] = {
-        title,
-        id,
-      };
-      orderedSteps.push(id);
-
-      if ($active === "" && orderedSteps.length) {
-        $active = orderedSteps[0];
-      }
+      state.steps = [...state.steps, { id, title }];
+      if (state.active === "") state.active = id;
     },
-    unregisterStep: (id: string) => {
-      if (steps[id]) delete steps[id];
-      orderedSteps = orderedSteps.filter((step) => step !== id);
+    unregisterStep(id) {
+      state.steps = state.steps.filter((s) => s.id !== id);
     },
+    next,
+    prev,
   });
 </script>
 
-<div class="container mx-auto overflow-hidden">
-  <header class="flex gap-2" role="tablist">
-    {#each Object.entries(steps) as [id, value]}
-      <div
-        class="p-2 rounded"
-        class:active={$active === id}
-        tabindex="0"
-        role="tab"
-        aria-roledescription="button"
-        on:click={() => {
-          $active = id;
-        }}
-        on:keyup={(e) => {
-          if (e.key === "Enter") {
-            e.preventDefault();
-            $active = id;
-          }
-        }}
-      >
-        {value.title}
+<div class="min-h-screen flex flex-col bg-white dark:bg-zinc-900 transition-colors">
+  <!-- Progress indicator -->
+  <div class="flex items-center justify-center gap-1 pt-10 pb-6 px-4">
+    {#each state.steps as step, i}
+      <div class="flex items-center gap-1">
+        <div
+          class="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold shrink-0
+            {i < currentIndex
+            ? 'bg-blue-600 text-white'
+            : i === currentIndex
+              ? 'bg-blue-600 text-white ring-4 ring-blue-200 dark:ring-blue-900'
+              : 'bg-zinc-200 text-zinc-500 dark:bg-zinc-700 dark:text-zinc-400'}"
+        >
+          {#if i < currentIndex}✓{:else}{i + 1}{/if}
+        </div>
+        <span
+          class="text-sm hidden sm:block
+            {i === currentIndex
+            ? 'text-zinc-800 dark:text-zinc-100 font-medium'
+            : 'text-zinc-400 dark:text-zinc-500'}"
+        >
+          {step.title}
+        </span>
+        {#if i < state.steps.length - 1}
+          <div
+            class="w-6 h-0.5 mx-1 {i < currentIndex
+              ? 'bg-blue-600'
+              : 'bg-zinc-200 dark:bg-zinc-700'}"
+          ></div>
+        {/if}
       </div>
     {/each}
-  </header>
-  <slot />
-</div>
+  </div>
 
-<style lang="scss">
-  div[role="tab"] {
-    &.active:hover {
-      background-color: theme("colors.blue.500");
-    }
-    &:hover {
-      background-color: theme("colors.zinc.700");
-    }
-  }
-  div.active {
-    background-color: theme("colors.blue.600");
-  }
-</style>
+  <!-- Step content -->
+  <div class="flex-1 container mx-auto px-4 max-w-lg w-full">
+    {@render children()}
+  </div>
+
+  <!-- Navigation buttons -->
+  <div class="flex justify-between items-center px-4 py-8 container mx-auto max-w-lg w-full">
+    <button
+      onclick={prev}
+      disabled={isFirst}
+      class="px-6 py-2 rounded-lg border border-zinc-300 text-zinc-600 disabled:opacity-30
+             hover:bg-zinc-100 dark:border-zinc-600 dark:text-zinc-400 dark:hover:bg-zinc-800 transition"
+    >
+      Back
+    </button>
+
+    {#if isLast}
+      <button
+        onclick={oncomplete}
+        class="px-6 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition font-medium"
+      >
+        Finish Setup
+      </button>
+    {:else}
+      <button
+        onclick={next}
+        class="px-6 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition font-medium"
+      >
+        Next
+      </button>
+    {/if}
+  </div>
+</div>

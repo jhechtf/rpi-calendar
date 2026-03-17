@@ -1,14 +1,12 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
   import { exists, BaseDirectory } from "@tauri-apps/api/fs";
-  import { onMount } from "svelte";
-  onMount(async () => {
-    const e = await exists("config.json", {
-      dir: BaseDirectory.AppConfig,
+
+  // $effect runs after mount — equivalent to onMount for DOM-side async work.
+  $effect(() => {
+    exists("config.json", { dir: BaseDirectory.AppConfig }).then((e) => {
+      if (!e) goto("/wizard");
     });
-    if (!e) {
-      goto("/wizard");
-    }
   });
 </script>
 
